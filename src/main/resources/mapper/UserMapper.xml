@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailong.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="user">
+
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="emall" jdbcType="VARCHAR" property="emall" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="headImage" jdbcType="VARCHAR" property="headimage" />
+    <result column="birthDay" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="descript" jdbcType="VARCHAR" property="descript" />
+  </resultMap>
+  
+  <!-- 查询单个数据 -->
+  <select id="findOne" parameterType="String" resultMap="user">
+    select * from user where id=${id}
+  </select>
+
+  <!-- 查询所有 -->
+  <select id="findAll" parameterType="map">
+  	select * from user 
+  </select>
+
+  
+  <!-- 删除用户 -->
+  <delete id="deleteById" parameterType="Integer">
+    delete from user where id=${id}
+  </delete>
+   <!-- 插入数据 -->
+  <insert id="insert" parameterType="user">
+    insert into user (id, name,password,emall, 
+      gender, headImage, birthDay, 
+      descript)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{emall,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{headimage,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{descript,jdbcType=VARCHAR})
+  </insert>
+  <!-- 统计总记录 -->
+  <select id="count"  resultType="Long">
+    select count(*) from user
+  </select>
+  
+  <!-- 更新数据 -->
+  <update id="update" parameterType="user">
+    update user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        name = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="emall != null">
+        emall = #{emall,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="headimage != null">
+        headImage = #{headimage,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthDay = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="descript != null">
+        descript = #{descript,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
